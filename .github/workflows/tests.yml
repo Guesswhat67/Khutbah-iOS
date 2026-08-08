@@ -1,0 +1,28 @@
+# CI quality gate for the Noor iOS branch: every push/PR must keep the
+# Vite build clean and the Quran-tracker engine suites green.
+# (The two big suites — bulk 2348 + mega 5300 — also run; they take ~2-4 min.)
+name: noor-ios tests
+
+on:
+  push:
+    branches: [NoorAliIOS]
+  pull_request:
+    branches: [NoorAliIOS]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # VITE_APP_TOKEN is intentionally absent in CI — the build must still
+      # succeed (the app just gets 401s on AI features at runtime).
+      - run: npm run build
+      - run: node scripts/test-tracker.mjs
+      - run: node scripts/test-stream.mjs
+      - run: node scripts/test-bulk.mjs
+      - run: node scripts/test-mega.mjs

@@ -1,0 +1,11 @@
+# Normalize line endings across Ali's Windows machine and Aayaan's Mac.
+* text=auto eol=lf
+
+# Never let git touch binary assets
+*.png binary
+*.jpg binary
+*.onnx binary
+
+# quran.json and every file containing Arabic must round-trip byte-identical
+# (RTL corruption hazard — see NOOR_IOS.md §0 rule 1)
+*.json text eol=lf

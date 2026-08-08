@@ -1,0 +1,14 @@
+{
+  "appId": "com.ali.noor",
+  "appName": "Noor",
+  "webDir": "dist",
+  "ios": {
+    "backgroundColor": "#02120B",
+    "contentInset": "never"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#10804b"
+    }
+  }
+}

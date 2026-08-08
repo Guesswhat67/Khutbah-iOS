@@ -1,0 +1,57 @@
+name: Build Unsigned iOS IPA (Noor)
+
+on:
+  push:
+    branches: [ main, master, NoorAliIOS, aliandroidv2 ]
+  workflow_dispatch:
+
+jobs:
+  build-ipa:
+    name: Build Unsigned IPA File
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: Build Web Dist Assets
+        run: npm run build
+
+      - name: Sync Capacitor iOS Native Project
+        run: npx cap sync ios
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build Xcode Archive (Unsigned)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj \
+            -scheme App \
+            -sdk iphoneos \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            archive -archivePath build/App.xcarchive
+
+      - name: Package Unsigned IPA
+        run: |
+          mkdir -p Payload
+          cp -r build/App.xcarchive/Products/Applications/*.app Payload/
+          zip -r Noor_Khutbah_unsigned.ipa Payload
+
+      - name: Upload Unsigned IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Noor-Khutbah-Unsigned-IPA
+          path: Noor_Khutbah_unsigned.ipa
+          retention-days: 30

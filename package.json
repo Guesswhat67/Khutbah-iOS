@@ -1,0 +1,44 @@
+{
+  "name": "noor-ios",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sync:token": "node scripts/sync-android-token.mjs",
+    "prebuild": "npm run sync:token",
+    "predev": "npm run sync:token",
+    "postinstall": "node scripts/inject-speech-recognition-spm.mjs",
+    "test:tracker": "node scripts/test-tracker.mjs",
+    "test:stream": "node scripts/test-stream.mjs",
+    "test:bulk": "node scripts/test-bulk.mjs",
+    "test:mega": "node scripts/test-mega.mjs",
+    "ios:sync": "npm run build && npx cap sync ios",
+    "ios:open": "npx cap open ios",
+    "ios:fix-pkg": "node scripts/ios-fix-pkg-cache.mjs"
+  },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "^7.0.0",
+    "@capacitor-community/speech-recognition": "^7.0.1",
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/cli": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
+    "@capacitor/filesystem": "^8.1.2",
+    "@capacitor/geolocation": "^8.2.0",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.3.4",
+    "@capacitor/local-notifications": "^8.2.0",
+    "@capacitor/share": "^8.0.1",
+    "@sentry/react": "^10.65.0",
+    "adhan": "^4.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@sentry/vite-plugin": "^2.22.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "sharp": "^0.35.3",
+    "vite": "^5.4.0"
+  }
+}

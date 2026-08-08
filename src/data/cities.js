@@ -1,0 +1,90 @@
+// A curated list of cities with coordinates for offline prayer-time / qibla setup.
+// Not exhaustive — the Settings location picker also allows manual lat/long entry.
+// Coordinates are city-centre approximations (good to well under a km for prayer times).
+
+export const CITIES = [
+  // ── Canada ──
+  { name: 'Toronto, Canada', lat: 43.6532, lng: -79.3832 },
+  { name: 'London, ON, Canada', lat: 42.9849, lng: -81.2453 },
+  { name: 'Mississauga, Canada', lat: 43.5890, lng: -79.6441 },
+  { name: 'Ottawa, Canada', lat: 45.4215, lng: -75.6972 },
+  { name: 'Montreal, Canada', lat: 45.5019, lng: -73.5674 },
+  { name: 'Calgary, Canada', lat: 51.0447, lng: -114.0719 },
+  { name: 'Edmonton, Canada', lat: 53.5461, lng: -113.4938 },
+  { name: 'Vancouver, Canada', lat: 49.2827, lng: -123.1207 },
+  { name: 'Winnipeg, Canada', lat: 49.8951, lng: -97.1384 },
+  { name: 'Windsor, Canada', lat: 42.3149, lng: -83.0364 },
+  { name: 'Kitchener, Canada', lat: 43.4516, lng: -80.4925 },
+  { name: 'Hamilton, Canada', lat: 43.2557, lng: -79.8711 },
+
+  // ── United States ──
+  { name: 'New York, USA', lat: 40.7128, lng: -74.0060 },
+  { name: 'Chicago, USA', lat: 41.8781, lng: -87.6298 },
+  { name: 'Houston, USA', lat: 29.7604, lng: -95.3698 },
+  { name: 'Los Angeles, USA', lat: 34.0522, lng: -118.2437 },
+  { name: 'Dallas, USA', lat: 32.7767, lng: -96.7970 },
+  { name: 'Detroit, USA', lat: 42.3314, lng: -83.0458 },
+  { name: 'Washington, DC, USA', lat: 38.9072, lng: -77.0369 },
+  { name: 'Atlanta, USA', lat: 33.7490, lng: -84.3880 },
+  { name: 'Minneapolis, USA', lat: 44.9778, lng: -93.2650 },
+  { name: 'Boston, USA', lat: 42.3601, lng: -71.0589 },
+  { name: 'San Francisco, USA', lat: 37.7749, lng: -122.4194 },
+  { name: 'Seattle, USA', lat: 47.6062, lng: -122.3321 },
+
+  // ── United Kingdom & Europe ──
+  { name: 'London, UK', lat: 51.5074, lng: -0.1278 },
+  { name: 'Birmingham, UK', lat: 52.4862, lng: -1.8904 },
+  { name: 'Manchester, UK', lat: 53.4808, lng: -2.2426 },
+  { name: 'Bradford, UK', lat: 53.7960, lng: -1.7594 },
+  { name: 'Leicester, UK', lat: 52.6369, lng: -1.1398 },
+  { name: 'Glasgow, UK', lat: 55.8642, lng: -4.2518 },
+  { name: 'Paris, France', lat: 48.8566, lng: 2.3522 },
+  { name: 'Berlin, Germany', lat: 52.5200, lng: 13.4050 },
+  { name: 'Amsterdam, Netherlands', lat: 52.3676, lng: 4.9041 },
+  { name: 'Brussels, Belgium', lat: 50.8503, lng: 4.3517 },
+  { name: 'Stockholm, Sweden', lat: 59.3293, lng: 18.0686 },
+  { name: 'Oslo, Norway', lat: 59.9139, lng: 10.7522 },
+  { name: 'Madrid, Spain', lat: 40.4168, lng: -3.7038 },
+  { name: 'Rome, Italy', lat: 41.9028, lng: 12.4964 },
+
+  // ── Middle East & Gulf ──
+  { name: 'Makkah, Saudi Arabia', lat: 21.3891, lng: 39.8579 },
+  { name: 'Madinah, Saudi Arabia', lat: 24.5247, lng: 39.5692 },
+  { name: 'Riyadh, Saudi Arabia', lat: 24.7136, lng: 46.6753 },
+  { name: 'Jeddah, Saudi Arabia', lat: 21.4858, lng: 39.1925 },
+  { name: 'Dubai, UAE', lat: 25.2048, lng: 55.2708 },
+  { name: 'Abu Dhabi, UAE', lat: 24.4539, lng: 54.3773 },
+  { name: 'Doha, Qatar', lat: 25.2854, lng: 51.5310 },
+  { name: 'Kuwait City, Kuwait', lat: 29.3759, lng: 47.9774 },
+  { name: 'Manama, Bahrain', lat: 26.2285, lng: 50.5860 },
+  { name: 'Muscat, Oman', lat: 23.5880, lng: 58.3829 },
+  { name: 'Amman, Jordan', lat: 31.9454, lng: 35.9284 },
+  { name: 'Cairo, Egypt', lat: 30.0444, lng: 31.2357 },
+  { name: 'Istanbul, Turkey', lat: 41.0082, lng: 28.9784 },
+  { name: 'Baghdad, Iraq', lat: 33.3152, lng: 44.3661 },
+  { name: 'Jerusalem', lat: 31.7683, lng: 35.2137 },
+
+  // ── South Asia ──
+  { name: 'Karachi, Pakistan', lat: 24.8607, lng: 67.0011 },
+  { name: 'Lahore, Pakistan', lat: 31.5204, lng: 74.3587 },
+  { name: 'Islamabad, Pakistan', lat: 33.6844, lng: 73.0479 },
+  { name: 'Rawalpindi, Pakistan', lat: 33.5651, lng: 73.0169 },
+  { name: 'Faisalabad, Pakistan', lat: 31.4504, lng: 73.1350 },
+  { name: 'Peshawar, Pakistan', lat: 34.0151, lng: 71.5249 },
+  { name: 'Multan, Pakistan', lat: 30.1575, lng: 71.5249 },
+  { name: 'Delhi, India', lat: 28.7041, lng: 77.1025 },
+  { name: 'Mumbai, India', lat: 19.0760, lng: 72.8777 },
+  { name: 'Hyderabad, India', lat: 17.3850, lng: 78.4867 },
+  { name: 'Dhaka, Bangladesh', lat: 23.8103, lng: 90.4125 },
+  { name: 'Kabul, Afghanistan', lat: 34.5553, lng: 69.2075 },
+
+  // ── Southeast Asia, Africa, Australia ──
+  { name: 'Kuala Lumpur, Malaysia', lat: 3.1390, lng: 101.6869 },
+  { name: 'Jakarta, Indonesia', lat: -6.2088, lng: 106.8456 },
+  { name: 'Singapore', lat: 1.3521, lng: 103.8198 },
+  { name: 'Lagos, Nigeria', lat: 6.5244, lng: 3.3792 },
+  { name: 'Nairobi, Kenya', lat: -1.2921, lng: 36.8219 },
+  { name: 'Johannesburg, South Africa', lat: -26.2041, lng: 28.0473 },
+  { name: 'Sydney, Australia', lat: -33.8688, lng: 151.2093 },
+  { name: 'Melbourne, Australia', lat: -37.8136, lng: 144.9631 },
+]

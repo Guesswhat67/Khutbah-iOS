@@ -1,0 +1,47 @@
+/* iPad Optimizations (Split-pane and touch targets) */
+@media (min-width: 768px) {
+  :root {
+    --base-font-size: 18px; /* Slightly larger text on tablets */
+  }
+
+  body {
+    font-size: var(--base-font-size, 16px);
+  }
+
+  .btn, .seg-btn, .settings-item {
+    padding: 14px 24px;
+    min-height: 48px; /* Larger touch targets */
+  }
+
+  .tab-bar {
+    min-height: 64px; /* Larger bottom tabs */
+  }
+
+  /* Side-by-side mode for Quran translation */
+  .quran-mode-wide .quran-browse-verse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .quran-mode-wide .qb-ar {
+    text-align: right;
+  }
+
+  .quran-mode-wide .qb-en {
+    text-align: left;
+    margin-top: 0;
+  }
+
+  /* Multi-column grid for Adhkar */
+  .adhkar-feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .quran-menu-grid {
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+}
