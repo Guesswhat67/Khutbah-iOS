@@ -18,16 +18,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+      - name: Clean install dependencies
+        run: |
+          rm -f package-lock.json
+          npm install --legacy-peer-deps
 
       - name: Build Web Dist Assets
         run: npm run build
 
-      - name: Sync Capacitor iOS Native Project
-        run: npx cap sync ios
+      - name: Full Capacitor sync to regenerate native project
+        run: |
+          npx cap sync ios
+
+      - name: Show resolved Package.swift for debugging
+        run: cat ios/App/CapApp-SPM/Package.swift
 
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
@@ -44,7 +49,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             DEVELOPMENT_TEAM="" \
-            archive -archivePath ../../build/App.xcarchive
+            archive -archivePath ../../build/App.xcarchive \
+            2>&1 | tail -80
 
       - name: Package Unsigned IPA
         run: |
