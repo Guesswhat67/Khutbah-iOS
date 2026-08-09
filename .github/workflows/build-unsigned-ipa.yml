@@ -56,13 +56,15 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             DEVELOPMENT_TEAM="" \
-            archive -archivePath ../../build/App.xcarchive \
+            archive -archivePath build/App.xcarchive \
             2>&1 | tail -100
 
       - name: Package Unsigned IPA
         run: |
           mkdir -p Payload
-          cp -r build/App.xcarchive/Products/Applications/*.app Payload/
+          APP_PATH=$(find . -name "*.app" -type d | grep -v "DerivedData" | head -n 1)
+          echo "Found compiled app at: $APP_PATH"
+          cp -r "$APP_PATH" Payload/
           zip -r Noor_Khutbah_unsigned.ipa Payload
 
       - name: Upload Unsigned IPA Artifact
