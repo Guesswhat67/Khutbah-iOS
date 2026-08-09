@@ -1,0 +1,22 @@
+name = "khutbah-v2"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+# Set to "false" when happy with quality — stops Arabic/English capture, keeps error logs
+[vars]
+DEBUG_MODE = "true"
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "khutbah-logs"
+database_id = "1f69ce27-74a3-4921-990d-a6c8c63ed4cc"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "khutbah-audio"
+
+# ANTHROPIC_API_KEY must be set in Cloudflare Pages dashboard
+# Settings → Environment variables → Add: ANTHROPIC_API_KEY = sk-ant-...
