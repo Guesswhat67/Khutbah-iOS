@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Live Khutbah</string>
+    <string name="title_activity_main">Live Khutbah</string>
+    <string name="package_name">com.ali.khutbah</string>
+    <string name="custom_url_scheme">com.ali.khutbah</string>
+</resources>
