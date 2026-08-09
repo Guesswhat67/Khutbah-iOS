@@ -23,6 +23,21 @@
 import fs from 'fs'
 import path from 'path'
 
+// Dynamically read the installed @capacitor/core version so the SPM pin always matches
+let capVersion = '8.4.1' // fallback
+try {
+  const capPkg = JSON.parse(
+    fs.readFileSync(
+      path.resolve(process.cwd(), 'node_modules/@capacitor/core/package.json'),
+      'utf8'
+    )
+  )
+  capVersion = capPkg.version
+  console.log(`[inject-speech-recognition-spm] Detected @capacitor/core@${capVersion}`)
+} catch {
+  console.log(`[inject-speech-recognition-spm] Could not read @capacitor/core version, using fallback ${capVersion}`)
+}
+
 const pluginRoot = path.resolve(
   process.cwd(),
   'node_modules/@capacitor-community/speech-recognition'
@@ -89,7 +104,7 @@ let package = Package(
             targets: ["SpeechRecognitionPlugin", "SpeechRecognitionPluginObjc"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", exact: "8.4.1")
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", exact: "${capVersion}")
     ],
     targets: [
         .target(

@@ -24,15 +24,22 @@ jobs:
           rm -f package-lock.json
           npm install --legacy-peer-deps
 
+      - name: Re-run postinstall to ensure SPM version sync
+        run: node scripts/inject-speech-recognition-spm.mjs
+
       - name: Build Web Dist Assets
         run: npm run build
 
-      - name: Full Capacitor sync to regenerate native project
-        run: |
-          npx cap sync ios
+      - name: Capacitor sync iOS
+        run: npx cap sync ios
 
-      - name: Show resolved Package.swift for debugging
-        run: cat ios/App/CapApp-SPM/Package.swift
+      - name: Verify SPM version alignment
+        run: |
+          echo "=== CapApp-SPM Package.swift ==="
+          cat ios/App/CapApp-SPM/Package.swift
+          echo ""
+          echo "=== Speech Recognition Package.swift ==="
+          cat node_modules/@capacitor-community/speech-recognition/Package.swift
 
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
@@ -50,7 +57,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             DEVELOPMENT_TEAM="" \
             archive -archivePath ../../build/App.xcarchive \
-            2>&1 | tail -80
+            2>&1 | tail -100
 
       - name: Package Unsigned IPA
         run: |
