@@ -28,6 +28,7 @@ const sentryPlugins = (SENTRY_AUTH_TOKEN && SENTRY_ORG && SENTRY_PROJECT)
   : []
 
 export default defineConfig({
+  base: './',
   // Both hidden-source-map and Sentry's plugin need `.map` files emitted.
   // `hidden` strips the "//# sourceMappingURL=" comment so users / Sentry
   // still get maps but the comment isn't public.
