@@ -18,6 +18,8 @@ import { FRIDAY_GOAL, NIGHTLY_GOAL, resolveSectionKeys, requiredKeysOf, goalProg
 import { ScribeSession } from './utils/scribeSTT'
 import { trimTranscript } from './utils/sttSanity'
 import { primeTracker } from './utils/quranTracker'
+import { quranAudio, RECITERS } from './utils/quranAudio'
+import { fetchUrduSurah } from './utils/urduTranslation'
 
 // Temporary detection-debug overlay (flip to false to hide once testing is done).
 const SHOW_DETECT_DEBUG = false
@@ -397,6 +399,25 @@ export default function QuranMode({ fontStyle, modelReady: modelReadyProp, targe
     } catch {}
     return [...DEFAULT_BOOKMARKS]
   })
+  const [audioState, setAudioState] = useState({ isPlaying: false, surah: null, ayah: null, reciterId: 'Alafasy_128kbps' })
+  const [translationLang, setTranslationLang] = useState('en')
+  const [urduTranslations, setUrduTranslations] = useState({})
+
+  const toggleAudio = (verse, totalAyat = 0) => {
+    if (audioState.isPlaying && audioState.surah === verse.s && audioState.ayah === verse.a) {
+      quranAudio.pause()
+    } else {
+      quranAudio.playAyah(verse.s, verse.a, totalAyat,
+        (s, a) => setAudioState(st => ({ ...st, surah: s, ayah: a })),
+        (st) => setAudioState(st)
+      )
+    }
+  }
+
+  const loadUrduForSurah = async (surahNum) => {
+    const map = await fetchUrduSurah(surahNum)
+    setUrduTranslations(prev => ({ ...prev, [surahNum]: map }))
+  }
 
   const versesRef           = useRef(null)
   const wordIndexRef        = useRef(null)
@@ -2153,6 +2174,30 @@ export default function QuranMode({ fontStyle, modelReady: modelReadyProp, targe
               onClick={() => setShowBookmarks(true)}
               title="Bookmarks"
             ><Icons.Bookmark /> <span className="quran-browse-bm-count">{bookmarks.length}</span></button>
+            <button
+              className={`quran-lang-toggle${translationLang === 'ur' ? ' quran-lang-active' : ''}`}
+              onClick={() => {
+                const nextLang = translationLang === 'en' ? 'ur' : 'en'
+                setTranslationLang(nextLang)
+                if (nextLang === 'ur' && browsePos.surahNum) {
+                  loadUrduForSurah(browsePos.surahNum)
+                }
+              }}
+              title="Toggle Urdu / English Translation"
+            >{translationLang === 'en' ? 'EN' : 'اردو'}</button>
+            <select
+              className="quran-reciter-select"
+              value={audioState.reciterId}
+              onChange={e => {
+                quranAudio.setReciter(e.target.value)
+                setAudioState(st => ({ ...st, reciterId: e.target.value }))
+              }}
+              title="Select Quran.com Reciter"
+            >
+              {RECITERS.map(r => (
+                <option key={r.id} value={r.id}>{r.name}</option>
+              ))}
+            </select>
             <select
               className="quran-browse-jump"
               value={browseJump}
@@ -2235,15 +2280,23 @@ export default function QuranMode({ fontStyle, modelReady: modelReadyProp, targe
                 {g.verses.map(v => {
                   const isCurrent = current && current.s === v.s && current.a === v.a
                   const bmed = bookmarkedKeys.has(`${v.s}:${v.a}`)
+                  const isAudioPlaying = audioState.isPlaying && audioState.surah === v.s && audioState.ayah === v.a
+                  const urduText = urduTranslations[v.s]?.[v.a]
                   return (
                     <div
                       key={`${v.s}:${v.a}`}
                       data-verse={`${v.s}:${v.a}`}
-                      className={`browse-verse${isCurrent ? ' browse-verse-current' : ''}`}
+                      className={`browse-verse${isCurrent ? ' browse-verse-current' : ''}${isAudioPlaying ? ' browse-verse-audio-playing' : ''}`}
                       ref={isCurrent ? el => { currentBrowseVerseRef.current = el } : null}
                     >
                       <div className="browse-ayah-col">
                         <span className="browse-ayah-num">{v.a}</span>
+                        <button
+                          className={`browse-ayah-audio${isAudioPlaying ? ' playing' : ''}`}
+                          onClick={e => { e.stopPropagation(); toggleAudio(v, g.verses.length) }}
+                          title={isAudioPlaying ? "Pause Recitation" : "Play Recitation from Quran.com"}
+                          aria-label="Play Recitation"
+                        >{isAudioPlaying ? '⏸' : '▶'}</button>
                         <button
                           className="browse-ayah-analyze"
                           onClick={e => { e.stopPropagation(); setVerseModal(v) }}
@@ -2253,7 +2306,13 @@ export default function QuranMode({ fontStyle, modelReady: modelReadyProp, targe
                       </div>
                       <div className="browse-verse-body">
                         <p className="browse-verse-ar" dir="rtl" style={{ fontSize: browseAr, ...arFont }}>{displayAr(v)}</p>
-                        <p className="browse-verse-en" style={{ fontSize: browseEn }}>{v.en}</p>
+                        {translationLang === 'ur' ? (
+                          <p className="browse-verse-ur" dir="rtl" style={{ fontSize: browseEn }}>
+                            {urduText || 'اردو ترجمہ لوڈ ہو رہا ہے...'}
+                          </p>
+                        ) : (
+                          <p className="browse-verse-en" style={{ fontSize: browseEn }}>{v.en}</p>
+                        )}
                       </div>
                       <div className="browse-verse-actions">
                         <button
