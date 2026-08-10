@@ -615,7 +615,9 @@ export default function QuranMode({ fontStyle, modelReady: modelReadyProp, targe
       let idx = buildWordIndex(vv)
       if (idx.size === 0) {
         console.warn('QuranMode: built empty word index, attempting fallback load')
-        const raw = await (await fetch('/quran.json')).json()
+        const res = await fetch('/quran.json')
+        const rawText = await res.text()
+        const raw = JSON.parse(rawText.replace(/^\uFEFF/, ''))
         const processed = raw.map(v => ({
           ...v,
           n: norm(v.ar || ''),

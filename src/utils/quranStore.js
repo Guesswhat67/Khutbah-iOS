@@ -121,7 +121,9 @@ export async function getQuranVerses() {
     // 3. Fetch fresh from the bundled JSON
     const res = await fetch('/quran.json')
     if (!res.ok) throw new Error('quran load error')
-    const processed = ensureDerived(await res.json())
+    const rawText = await res.text()
+    const cleanText = rawText.replace(/^\uFEFF/, '')
+    const processed = ensureDerived(JSON.parse(cleanText))
     _verses = processed
     idbPut(KEY, processed).catch(() => {})
     return _verses
