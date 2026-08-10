@@ -216,3 +216,23 @@ body.tier-low * {
   .device-confirm-card { padding: 16px 16px 12px; gap: 12px; }
   .device-confirm-detected { padding: 12px; }
 }
+
+/* Quran.com Custom Typography & Font Styling */
+.quran-verse-ar,
+.mushaf-text,
+.mushaf-bismillah,
+.browse-verse-ar,
+.quran-verse-card-ar {
+  font-family: 'Amiri Quran', 'KFGQPC Uthman Taha Naskh', 'Noto Naskh Arabic', 'Amiri', serif !important;
+  font-feature-settings: "cv01" on, "cv02" on;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 2.2;
+}
+
+body.quran-script-indopak .quran-verse-ar,
+body.quran-script-indopak .mushaf-text,
+body.quran-script-indopak .mushaf-bismillah,
+body.quran-script-indopak .browse-verse-ar {
+  font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif !important;
+}
